@@ -65,119 +65,140 @@ function trackingReveals() {
     });
   });
 
-  gsap.utils.toArray<HTMLElement>("[data-split]").forEach((el) => {
-    const split = new SplitText(el, { type: "words", wordsClass: "split-word" });
-    gsap.from(split.words, {
-      opacity: 0,
-      yPercent: 90,
-      filter: "blur(8px)",
-      duration: 0.95,
-      ease: "power3.out",
-      stagger: 0.08,
-      scrollTrigger: { trigger: el, start: "top 80%" },
-    });
-  });
 }
 
 /**
- * Hero stays PINNED at the top. The three service sections then scroll up
- * one after another and stack over it (and over each other) — each one
- * "pulled up" as scrolling continues. The section being covered eases back
- * in scale + dims, giving cinematic depth.
+ * Hero stays PINNED as the base layer. Each of the three service sections is
+ * "pulled up" over the one beneath it, then HOLDS fully in view for a dwell so
+ * the viewer can read it, before the next one rises. The covered layer eases
+ * back in scale + dims for cinematic depth. Driven by one scrubbed master
+ * timeline pinned to the stage, so the gaps between pull-ups are explicit.
  */
 function stackedReveal() {
+  const stage = document.querySelector<HTMLElement>("#stage")!;
   const hero = document.querySelector<HTMLElement>("#hero")!;
   const services = gsap.utils.toArray<HTMLElement>("[data-service]");
   const layers = [hero, ...services];
 
-  // pin every layer except the last so the next one rises over a fixed layer
-  layers.forEach((layer, i) => {
-    if (i === layers.length - 1) return;
-    ScrollTrigger.create({
-      trigger: layer,
+  // timing in abstract "units"; 1 unit ≈ one viewport of scroll
+  const REVEAL = 1.0; // how long a pull-up takes
+  const HOLD = 1.2; // the readable GAP each section dwells, fully in view
+  const LEAD = 0.6; // initial pause so the hero is readable first
+
+  let totalUnits = LEAD;
+  services.forEach(() => (totalUnits += REVEAL + HOLD));
+
+  // pre-split each service title for a word track-in synced to its reveal
+  const titleWords = services.map((s) => {
+    const el = s.querySelector<HTMLElement>("[data-split]");
+    if (!el) return [];
+    const split = new SplitText(el, { type: "words", wordsClass: "split-word" });
+    gsap.set(split.words, { yPercent: 90, opacity: 0, filter: "blur(8px)" });
+    return split.words as HTMLElement[];
+  });
+
+  gsap.set(services, {
+    yPercent: 100,
+    borderTopLeftRadius: 48,
+    borderTopRightRadius: 48,
+  });
+  // start state is set — safe to reveal the stack now (no flash)
+  gsap.set(".stack", { visibility: "visible" });
+
+  const tl = gsap.timeline({
+    defaults: { ease: "none" },
+    scrollTrigger: {
+      trigger: stage,
       start: "top top",
-      end: "+=100%",
+      end: () => "+=" + Math.round(totalUnits * window.innerHeight),
       pin: true,
-      pinSpacing: false,
+      scrub: 1,
       anticipatePin: 1,
       invalidateOnRefresh: true,
-    });
+    },
   });
 
-  // depth: as the NEXT layer covers the current one, push it back + dim it
-  layers.forEach((layer, i) => {
-    if (i === layers.length - 1) return;
-    const next = layers[i + 1];
-    const content =
-      layer.querySelector<HTMLElement>(".service__inner") ?? layer;
-    const media = layer.querySelector<HTMLElement>(".service__video");
+  // explicit playhead position; advance by REVEAL + HOLD each section so the
+  // dwell is a real, empty gap in the timeline (= readable pause on screen)
+  let at = LEAD;
 
-    gsap.fromTo(
-      content,
-      { scale: 1, opacity: 1, filter: "brightness(1)" },
+  services.forEach((s, i) => {
+    const beneath = layers[i]; // layer being covered
+    const beneathContent =
+      beneath.querySelector<HTMLElement>(".service__inner") ?? beneath;
+    const video = s.querySelector<HTMLVideoElement>("[data-service-video]");
+    const media = s.querySelector<HTMLElement>(".service__video");
+    const prevVideo =
+      i > 0
+        ? services[i - 1].querySelector<HTMLVideoElement>("[data-service-video]")
+        : null;
+
+    // pull this section up + flatten its rounded "pulled-card" top
+    tl.fromTo(
+      s,
+      { yPercent: 100, borderTopLeftRadius: 48, borderTopRightRadius: 48 },
       {
-        scale: 0.9,
-        opacity: 0.35,
-        filter: "brightness(0.7)",
-        ease: "none",
-        scrollTrigger: {
-          trigger: next,
-          start: "top bottom",
-          end: "top top",
-          scrub: true,
+        yPercent: 0,
+        borderTopLeftRadius: 0,
+        borderTopRightRadius: 0,
+        duration: REVEAL,
+        ease: "power2.out",
+        onStart: () => {
+          video?.play().catch(() => {});
+          prevVideo?.pause();
         },
-      }
+        onReverseComplete: () => video?.pause(),
+      },
+      at
     );
+
+    // slow push-in on the incoming video across reveal + the hold
     if (media) {
-      gsap.fromTo(
+      tl.fromTo(
         media,
-        { scale: 1.06 },
-        {
-          scale: 1.16,
-          ease: "none",
-          scrollTrigger: {
-            trigger: next,
-            start: "top bottom",
-            end: "top top",
-            scrub: true,
-          },
-        }
+        { scale: 1.12 },
+        { scale: 1.04, duration: REVEAL + HOLD, ease: "none" },
+        at
       );
     }
-  });
 
-  // incoming layers get a "pulled-up card" rounded top that flattens on arrival
-  services.forEach((s) => {
-    gsap.fromTo(
-      s,
-      { borderTopLeftRadius: "44px", borderTopRightRadius: "44px" },
+    // depth: dim + scale back the layer being covered, concurrently
+    tl.fromTo(
+      beneathContent,
+      { scale: 1, opacity: 1, filter: "brightness(1)" },
       {
-        borderTopLeftRadius: "0px",
-        borderTopRightRadius: "0px",
-        ease: "none",
-        scrollTrigger: {
-          trigger: s,
-          start: "top bottom",
-          end: "top top",
-          scrub: true,
-        },
-      }
+        scale: 0.92,
+        opacity: 0.5,
+        filter: "brightness(0.72)",
+        duration: REVEAL,
+        ease: "power2.out",
+      },
+      at
     );
+
+    // word track-in as the section settles
+    const words = titleWords[i];
+    if (words.length) {
+      tl.to(
+        words,
+        {
+          yPercent: 0,
+          opacity: 1,
+          filter: "blur(0px)",
+          duration: REVEAL * 0.7,
+          ease: "power3.out",
+          stagger: REVEAL * 0.06,
+        },
+        at + REVEAL * 0.35
+      );
+    }
+
+    // advance past the reveal AND the readable hold/gap
+    at += REVEAL + HOLD;
   });
 
-  // play videos only while their section is in view (perf)
-  const videos = gsap.utils.toArray<HTMLVideoElement>("[data-service-video]");
-  const io = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        const v = entry.target as HTMLVideoElement;
-        if (entry.isIntersecting) v.play().catch(() => {});
-        else v.pause();
-      });
-    },
-    { threshold: 0.15 }
-  );
-  videos.forEach((v) => io.observe(v));
+  // ensure the timeline spans the full pinned distance
+  tl.to({}, { duration: 0.01 }, totalUnits);
 }
 
 export function initScenes() {
