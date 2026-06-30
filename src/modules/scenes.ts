@@ -82,7 +82,7 @@ function stackedReveal() {
 
   // timing in abstract "units"; 1 unit ≈ one viewport of scroll
   const REVEAL = 1.0; // how long a pull-up takes
-  const HOLD = 1.2; // the readable GAP each section dwells, fully in view
+  const HOLD = 0.5; // the readable GAP each section dwells, fully in view
   const LEAD = 0.6; // initial pause so the hero is readable first
 
   let totalUnits = LEAD;
