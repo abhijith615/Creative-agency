@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <title>NOIR&nbsp;— Creative Studio</title>
+    <meta
+      name="description"
+      content="NOIR is a creative studio crafting premium websites, social media and photography for ambitious brands across India."
+    />
+  </head>
+  <body>
+    <!-- Custom cursor -->
+    <div class="cursor" id="cursor" aria-hidden="true">
+      <span class="cursor__label" id="cursor-label"></span>
+    </div>
+
+    <!-- Preloader -->
+    <div class="preloader" id="preloader" aria-hidden="true">
+      <div class="preloader__inner">
+        <div class="preloader__meta">
+          <span>NOIR&reg; STUDIO</span>
+          <span>EST. INDIA</span>
+        </div>
+        <div class="preloader__count">
+          <span class="preloader__num" id="preloader-num">0</span>
+          <span class="preloader__pct">%</span>
+        </div>
+        <div class="preloader__bar"><i id="preloader-bar"></i></div>
+        <div class="preloader__words" id="preloader-words">
+          <span>Designing</span>
+          <span>Capturing</span>
+          <span>Amplifying</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- App -->
+    <main id="app">
+      <!-- WebGL touch-the-lines canvas lives behind everything -->
+      <canvas class="gl" id="gl" aria-hidden="true"></canvas>
+
+      <!-- NAV -->
+      <header class="nav" id="nav">
+        <a href="#" class="nav__logo" data-cursor="home">NOIR&reg;</a>
+        <nav class="nav__links">
+          <a href="#services" data-cursor="explore">Services</a>
+          <a href="#contact" data-cursor="explore">Contact</a>
+        </nav>
+        <span class="nav__loc">IND · 28.61&deg;N</span>
+      </header>
+
+      <!-- HERO -->
+      <section class="hero" id="hero">
+        <div class="hero__grid" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+
+        <div class="hero__top">
+          <p class="hero__intro" data-reveal>
+            A creative studio for brands that <em>dare to touch the lines.</em>
+          </p>
+        </div>
+
+        <h1 class="hero__title">
+          <span class="line" data-hero-line>CREATIVE</span>
+          <span class="line" data-hero-line>STUDIO<sup>®</sup></span>
+        </h1>
+
+        <div class="hero__bottom">
+          <div class="hero__scroll" data-cursor="scroll">
+            <span>Scroll to explore</span>
+            <i></i>
+          </div>
+          <p class="hero__desc" data-reveal>
+            Websites · Social&nbsp;Media · Photography &amp;&nbsp;Videography —
+            engineered in India, built for the world.
+          </p>
+        </div>
+      </section>
+
+      <!-- SERVICES — 3 separate full-screen sections, each pulled up & stacked -->
+      <div class="stack" id="services">
+        <!-- Service 01 -->
+        <section class="service" data-service data-cursor="watch">
+          <video
+            class="service__video"
+            data-service-video
+            src="/videos/website-design.mp4"
+            muted
+            loop
+            playsinline
+            preload="auto"
+          ></video>
+          <div class="service__scrim"></div>
+          <div class="service__inner">
+            <div class="service__head">
+              <span class="service__index">01</span>
+              <span class="service__kicker">Service</span>
+            </div>
+            <div class="service__copy">
+              <h2 class="service__title" data-split>Website<br />Design</h2>
+              <p class="service__desc">
+                Premium, performance-obsessed websites — design systems, motion
+                and code engineered to convert.
+              </p>
+              <ul class="service__tags">
+                <li>UI / UX</li>
+                <li>Next.js</li>
+                <li>Motion</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- Service 02 -->
+        <section class="service" data-service data-cursor="watch">
+          <video
+            class="service__video"
+            data-service-video
+            src="/videos/social-media.mp4"
+            muted
+            loop
+            playsinline
+            preload="auto"
+          ></video>
+          <div class="service__scrim"></div>
+          <div class="service__inner">
+            <div class="service__head">
+              <span class="service__index">02</span>
+              <span class="service__kicker">Service</span>
+            </div>
+            <div class="service__copy">
+              <h2 class="service__title" data-split>Social<br />Media</h2>
+              <p class="service__desc">
+                End-to-end social management — strategy, content and community
+                that compound your brand month over month.
+              </p>
+              <ul class="service__tags">
+                <li>Strategy</li>
+                <li>Content</li>
+                <li>Growth</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- Service 03 -->
+        <section class="service" data-service data-cursor="watch">
+          <video
+            class="service__video"
+            data-service-video
+            src="/videos/photography.mp4"
+            muted
+            loop
+            playsinline
+            preload="auto"
+          ></video>
+          <div class="service__scrim"></div>
+          <div class="service__inner">
+            <div class="service__head">
+              <span class="service__index">03</span>
+              <span class="service__kicker">Service</span>
+            </div>
+            <div class="service__copy">
+              <h2 class="service__title" data-split>Photo &amp;<br />Video</h2>
+              <p class="service__desc">
+                Cinematic photography and videography — stories shot, directed
+                and graded entirely in-house.
+              </p>
+              <ul class="service__tags">
+                <li>Direction</li>
+                <li>Cinematography</li>
+                <li>Grade</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- OUTRO spacer so pin release feels natural -->
+      <section class="outro" id="contact">
+        <h2 class="outro__title" data-track>Let&rsquo;s make<br />something rare.</h2>
+        <a class="outro__cta" href="mailto:hello@noir.studio" data-cursor="write">
+          hello@noir.studio
+        </a>
+      </section>
+    </main>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
