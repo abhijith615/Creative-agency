@@ -10,6 +10,7 @@ const LABELS: Record<string, string> = {
   explore: "Explore",
   scroll: "Scroll",
   watch: "Watch",
+  view: "View",
   home: "Home",
   write: "Say hi",
 };

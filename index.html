@@ -51,6 +51,8 @@
         <a href="#" class="nav__logo" data-cursor="home">NOIR&reg;</a>
         <nav class="nav__links">
           <a href="#services" data-cursor="explore">Services</a>
+          <a href="#about" data-cursor="explore">About</a>
+          <a href="#work" data-cursor="explore">Work</a>
           <a href="#contact" data-cursor="explore">Contact</a>
         </nav>
         <span class="nav__loc">IND · 28.61&deg;N</span>
@@ -64,9 +66,15 @@
           <span></span><span></span><span></span><span></span><span></span>
         </div>
 
+        <!-- Three.js device scene mounts here (full-bleed, behind the copy) -->
+        <div class="hero__viz" id="hero3d" aria-hidden="true"></div>
+
         <div class="hero__top">
           <p class="hero__intro" data-reveal>
             A creative studio for brands that <em>dare to touch the lines.</em>
+          </p>
+          <p class="hero__badges" data-reveal aria-hidden="true">
+            <span>Web</span><span>Social</span><span>Film</span>
           </p>
         </div>
 
@@ -77,7 +85,7 @@
 
         <div class="hero__bottom">
           <div class="hero__scroll" data-cursor="scroll">
-            <span>Scroll to explore</span>
+            <span>Scroll to reveal</span>
             <i></i>
           </div>
           <p class="hero__desc" data-reveal>
@@ -188,12 +196,196 @@
       </div>
       <!-- /stage -->
 
-      <!-- OUTRO spacer so pin release feels natural -->
-      <section class="outro" id="contact">
-        <h2 class="outro__title" data-track>Let&rsquo;s make<br />something rare.</h2>
-        <a class="outro__cta" href="mailto:hello@noir.studio" data-cursor="write">
-          hello@noir.studio
-        </a>
+      <!-- ABOUT — full-bleed studio image background -->
+      <section class="about" id="about">
+        <div class="about__bg" aria-hidden="true"></div>
+        <div class="about__scrim" aria-hidden="true"></div>
+        <div class="about__inner">
+          <p class="eyebrow about__eyebrow">About the studio <span>/ since 2018</span></p>
+          <h2 class="about__title" data-track>
+            We build brands<br />worth remembering.
+          </h2>
+          <div class="about__body">
+            <p class="about__lead" data-reveal>
+              NOIR is an independent creative studio based in India, crafting
+              premium websites, social presence and cinematic imagery for brands
+              that refuse to blend in.
+            </p>
+            <p class="about__text" data-reveal>
+              One team across three disciplines — design, social and film — so
+              every pixel, post and frame speaks the same language. We obsess over
+              detail, motion and story until the work feels inevitable.
+            </p>
+          </div>
+          <div class="about__stats">
+            <div class="stat">
+              <span class="stat__num">50+</span>
+              <span class="stat__label">Brands shipped</span>
+            </div>
+            <div class="stat">
+              <span class="stat__num">8</span>
+              <span class="stat__label">Years of craft</span>
+            </div>
+            <div class="stat">
+              <span class="stat__num">3</span>
+              <span class="stat__label">Disciplines</span>
+            </div>
+            <div class="stat">
+              <span class="stat__num">100%</span>
+              <span class="stat__label">In-house</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PORTFOLIO — horizontally scrolling cards (pinned) -->
+      <section class="portfolio" id="work">
+        <div class="portfolio__head">
+          <p class="eyebrow">Selected work <span>/ 06</span></p>
+          <h2 class="portfolio__title" data-track>Proof,<br />not promises.</h2>
+          <p class="portfolio__hint" data-cursor="scroll">Scroll to pan&nbsp;→</p>
+        </div>
+
+        <div class="portfolio__viewport">
+          <div class="ptrack" id="ptrack">
+            <article class="pcard pcard--a" data-cursor="view">
+              <div class="pcard__media">
+                <span class="pcard__no">01</span>
+                <span class="pcard__cat">Website</span>
+              </div>
+              <div class="pcard__foot">
+                <h3 class="pcard__name">Aether Labs</h3>
+                <span class="pcard__year">’25</span>
+              </div>
+            </article>
+
+            <article class="pcard pcard--b" data-cursor="view">
+              <div class="pcard__media">
+                <span class="pcard__no">02</span>
+                <span class="pcard__cat">Social</span>
+              </div>
+              <div class="pcard__foot">
+                <h3 class="pcard__name">Marigold&nbsp;&amp;&nbsp;Co</h3>
+                <span class="pcard__year">’25</span>
+              </div>
+            </article>
+
+            <article class="pcard pcard--c" data-cursor="view">
+              <div class="pcard__media">
+                <span class="pcard__no">03</span>
+                <span class="pcard__cat">Photography</span>
+              </div>
+              <div class="pcard__foot">
+                <h3 class="pcard__name">Noor Atelier</h3>
+                <span class="pcard__year">’24</span>
+              </div>
+            </article>
+
+            <article class="pcard pcard--d" data-cursor="view">
+              <div class="pcard__media">
+                <span class="pcard__no">04</span>
+                <span class="pcard__cat">Website</span>
+              </div>
+              <div class="pcard__foot">
+                <h3 class="pcard__name">Terra Roast</h3>
+                <span class="pcard__year">’24</span>
+              </div>
+            </article>
+
+            <article class="pcard pcard--e" data-cursor="view">
+              <div class="pcard__media">
+                <span class="pcard__no">05</span>
+                <span class="pcard__cat">Social + Video</span>
+              </div>
+              <div class="pcard__foot">
+                <h3 class="pcard__name">Vayu Studio</h3>
+                <span class="pcard__year">’24</span>
+              </div>
+            </article>
+
+            <article class="pcard pcard--f" data-cursor="view">
+              <div class="pcard__media">
+                <span class="pcard__no">06</span>
+                <span class="pcard__cat">Full Brand</span>
+              </div>
+              <div class="pcard__foot">
+                <h3 class="pcard__name">Saffron House</h3>
+                <span class="pcard__year">’23</span>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section class="contact" id="contact">
+        <div class="contact__inner">
+          <div class="contact__lead">
+            <p class="eyebrow">Contact <span>/ say hi</span></p>
+            <h2 class="contact__title" data-track>
+              Let&rsquo;s make<br />something rare.
+            </h2>
+            <a
+              class="contact__email"
+              href="mailto:hello@noir.studio"
+              data-cursor="write"
+              >hello@noir.studio</a
+            >
+          </div>
+
+          <form class="contact__form" id="contact-form" novalidate>
+            <label class="field">
+              <span class="field__label">Your name</span>
+              <input type="text" name="name" required autocomplete="name" />
+            </label>
+            <label class="field">
+              <span class="field__label">Email</span>
+              <input type="email" name="email" required autocomplete="email" />
+            </label>
+            <label class="field">
+              <span class="field__label">What do you need?</span>
+              <select name="service">
+                <option>Website design</option>
+                <option>Social media management</option>
+                <option>Photography &amp; videography</option>
+                <option>Full brand</option>
+              </select>
+            </label>
+            <label class="field">
+              <span class="field__label">Tell us about the project</span>
+              <textarea name="message" rows="3" required></textarea>
+            </label>
+            <button type="submit" class="contact__submit" data-cursor="write">
+              <span>Send it</span>
+              <i>→</i>
+            </button>
+          </form>
+        </div>
+
+        <div class="contact__meta">
+          <div class="contact__col">
+            <span class="contact__k">Studio</span>
+            <span class="contact__v">New Delhi · India</span>
+          </div>
+          <div class="contact__col">
+            <span class="contact__k">Socials</span>
+            <span class="contact__v">
+              <a href="#" data-cursor="explore">Instagram</a>
+              <a href="#" data-cursor="explore">Behance</a>
+              <a href="#" data-cursor="explore">LinkedIn</a>
+            </span>
+          </div>
+          <div class="contact__col">
+            <span class="contact__k">Hours</span>
+            <span class="contact__v">Mon–Sat · 10–7 IST</span>
+          </div>
+        </div>
+
+        <footer class="footer">
+          <span>&copy; 2026 NOIR&reg; Studio</span>
+          <a href="#hero" class="footer__top" data-cursor="scroll">Back to top ↑</a>
+          <span>Crafted in India</span>
+        </footer>
       </section>
     </main>
 

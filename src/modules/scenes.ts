@@ -201,9 +201,71 @@ function stackedReveal() {
   tl.to({}, { duration: 0.01 }, totalUnits);
 }
 
+/** Subtle parallax drift on the About background image. */
+function aboutParallax() {
+  const bg = document.querySelector<HTMLElement>(".about__bg");
+  if (!bg) return;
+  gsap.fromTo(
+    bg,
+    { yPercent: -8 },
+    {
+      yPercent: 8,
+      ease: "none",
+      scrollTrigger: {
+        trigger: "#about",
+        start: "top bottom",
+        end: "bottom top",
+        scrub: true,
+      },
+    }
+  );
+}
+
+/** Portfolio: pin the section and pan the card track horizontally on scroll. */
+function portfolioScroll() {
+  const section = document.querySelector<HTMLElement>("#work");
+  const track = document.querySelector<HTMLElement>("#ptrack");
+  if (!section || !track) return;
+
+  const pad = window.innerWidth * 0.06;
+  const amount = () => Math.max(0, track.scrollWidth - window.innerWidth + pad);
+
+  const horizontal = gsap.to(track, {
+    x: () => -amount(),
+    ease: "none",
+    scrollTrigger: {
+      trigger: section,
+      start: "top top",
+      end: () => "+=" + amount(),
+      pin: true,
+      scrub: 1,
+      anticipatePin: 1,
+      invalidateOnRefresh: true,
+    },
+  });
+
+  // cards ease up + settle as they pan into view
+  gsap.utils.toArray<HTMLElement>(".pcard").forEach((card) => {
+    gsap.from(card, {
+      yPercent: 14,
+      opacity: 0,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: card,
+        containerAnimation: horizontal,
+        start: "left 92%",
+        end: "left 55%",
+        scrub: true,
+      },
+    });
+  });
+}
+
 export function initScenes() {
   trackingReveals();
   stackedReveal();
+  aboutParallax();
+  portfolioScroll();
   ScrollTrigger.refresh();
   window.addEventListener("load", () => ScrollTrigger.refresh());
 }
